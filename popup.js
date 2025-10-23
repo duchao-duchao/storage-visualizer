@@ -79,6 +79,20 @@ function render(list, container){
 function truncate(str,n){return str.length>n?str.slice(0,n)+'...':str;}
 function formatSize(b){return b<1024?b+'B':(b/1024).toFixed(2)+'KB';}
 
+// 计算存储总大小
+function calculateTotalSize(storageData) {
+  return storageData.reduce((total, item) => total + item.size, 0);
+}
+
+// 更新存储大小显示
+function updateStorageSizes(data) {
+  const localSize = calculateTotalSize(data.local);
+  const sessionSize = calculateTotalSize(data.session);
+  
+  document.getElementById('localSize').textContent = formatSize(localSize);
+  document.getElementById('sessionSize').textContent = formatSize(sessionSize);
+}
+
 // 主界面
 document.addEventListener('DOMContentLoaded', async ()=>{
   const app=document.getElementById('app');
@@ -89,8 +103,14 @@ document.addEventListener('DOMContentLoaded', async ()=>{
         Storage Visualizer
       </h1>
       <div class="tabs">
-        <button id="tabLocal" class="tab-button active">localStorage</button>
-        <button id="tabSession" class="tab-button">sessionStorage</button>
+        <button id="tabLocal" class="tab-button active">
+          localStorage
+          <span id="localSize" class="storage-size">0KB</span>
+        </button>
+        <button id="tabSession" class="tab-button">
+          sessionStorage
+          <span id="sessionSize" class="storage-size">0KB</span>
+        </button>
       </div>
       <input id="search" class="search-input" placeholder="搜索键名或值..."/>
       <div class="search-filters">
@@ -100,6 +120,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
           <option value="object">对象</option>
           <option value="array">数组</option>
           <option value="number">数字</option>
+          <option value="boolean">布尔值</option>
         </select>
         <select id="searchType" class="filter-select">
           <option value="all">键名+值</option>
@@ -165,8 +186,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   async function load(){
     try {
       data=await getStorageData();
-      console.log(data, 'data');
-      
+      updateStorageSizes(data); // 更新存储大小显示
       applyFilters();
     } catch (error) {
       console.error('加载数据失败:', error);
@@ -370,7 +390,7 @@ async function executeClearAll() {
     
     if (results && results[0] && results[0].result) {
       showToast('清空成功');
-      load(); // 重新加载数据
+      load();
     }
   } catch (error) {
     console.error('Clear failed:', error);

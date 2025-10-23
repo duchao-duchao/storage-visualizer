@@ -72,6 +72,10 @@ html, body {
     transition: all 0.2s ease;
     background: #f7fafc;
     color: #4a5568;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
 }
 
 .tab-button.active {
@@ -83,6 +87,23 @@ html, body {
 .tab-button:hover:not(.active) {
     background: #edf2f7;
     transform: translateY(-1px);
+}
+
+/* 存储大小样式 */
+.storage-size {
+    font-size: 10px;
+    font-weight: 400;
+    opacity: 0.8;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 35px;
+    text-align: center;
+}
+
+.tab-button:not(.active) .storage-size {
+    background: rgba(0, 0, 0, 0.1);
+    color: #718096;
 }
 
 /* 搜索框样式 */
