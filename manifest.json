@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Storage Visualizer",
+  "version": "0.0.1",
+  "description": "一键可视化、编辑 localStorage & sessionStorage",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_title": "打开 Storage 可视化工具",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}
